@@ -16,6 +16,10 @@ inputs:
   unity-serial:
     description: Unity license serial key. Used for Plus/Professional license activation
     required: false
+  unity-alf-path:
+    description: Unity license alf path
+    required: false
+    
 runs:
   using: node16
   main: src/activate-license.js
