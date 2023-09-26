@@ -52,10 +52,10 @@ jobs:
       #     name: 'UNITY_LICENSE'
       #     value: '${{ steps.ulfRead.outputs.content }}'
       #     token: ${{ secrets.ACCESS_TOKEN }}
-      
+
       - name: Upload as artifact
         uses: actions/upload-artifact@v2  # 要用到upload-artifact@v2
         with:
-          name: ${{ env.ULF_FILE }}
-          path: ${{ env.ULF_FILE }}
+          name: ${{ steps.ulfFile.outputs.filePath }}
+          path: ${{ steps.ulfFile.outputs.filePath }}
           retention-days: 1
