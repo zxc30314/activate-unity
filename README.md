@@ -51,7 +51,7 @@ Unity license serial key. Used for Plus/Professional license activation.
      echo "UNITY_VERSION=$UNITY_VERSION" >> $GITHUB_ENV
      echo "Unity version is $UNITY_VERSION"
      
-- name: Request .alf file 🔑
+- name: Request .alf file
   id: alfFile
   uses: game-ci/unity-request-activation-file@v2
   with:
@@ -71,7 +71,7 @@ Unity license serial key. Used for Plus/Professional license activation.
   uses: juliangruber/read-file-action@v1.1.4
   with:
     path: ${{ steps.ulfFile.outputs.filePath }}
-    
+
 - name: Update secret UNITY_LICENSE
   uses: hmanzur/actions-set-secret@v2.0.0
   with:
