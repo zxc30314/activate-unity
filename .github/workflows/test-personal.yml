@@ -28,6 +28,8 @@ jobs:
           unityVersion: ${{ matrix.unity-version }}
         env:
            ALF_OUTPUT: ${{ steps.alfFile.outputs.alf }}
+      - name: Access ALF_OUTPUT
+        run: echo $ALF_OUTPUT
       - name: Activate unity
         uses: ./
         with:
