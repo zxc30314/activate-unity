@@ -18,7 +18,7 @@ async function run() {
         if (unitySerial) {
             await unity.activateSerialLicense(unityPath, unityUsername, unityPassword, unitySerial);
         } else {
-
+            const envVarName = 'ULF';
             if(!unityAlfPath){
                 throw new Error('unityAlfPath path not found');
             }
@@ -26,7 +26,7 @@ async function run() {
             const licenseRobot = require('./license-robot');
            // const licenseRequestFile = await unity.createManualActivationFile(unityPath);
             const licenseData = await licenseRobot.getPersonalLicense(unityAlfPath, unityUsername, unityPassword, unityAuthenticatorKey);
-            fs.appendFileSync(process.env.GITHUB_ENV, `${ULF}=${licenseData}\n`, 'utf8');
+            fs.appendFileSync(process.env.GITHUB_ENV, `${envVarName}=${licenseData}\n`, 'utf8');
             // await unity.activateManualLicense(unityPath, licenseData);
         }
     } catch (error) {
