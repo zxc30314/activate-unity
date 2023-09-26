@@ -27,11 +27,11 @@ jobs:
         with:
           unityVersion: ${{ matrix.unity-version }}
       - name: Access ALF_OUTPUT
-        run: echo ${{ steps.alfFile.outputs.alf }}  # 直接使用 steps 输出
+        run: echo ${{ steps.alfFile.outputs.filePath  }}  # 直接使用 steps 输出
       - name: Activate unity
         uses: ./
         with:
           unity-username: ${{ secrets.UNITY_USERNAME }}
           unity-password: ${{ secrets.UNITY_PASSWORD }}
           unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
-          unity-alf-path: ${{ steps.alfFile.outputs.alf }}  # 直接使用 steps 输出
+          unity-alf-path: ${{ steps.alfFile.outputs.filePath  }}  # 直接使用 steps 输出
