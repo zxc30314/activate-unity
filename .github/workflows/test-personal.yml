@@ -26,8 +26,7 @@ jobs:
         uses: game-ci/unity-request-activation-file@v2
         with:
           unityVersion: ${{ matrix.unity-version }}
-      - name: Access ALF_OUTPUT
-        run: echo ${{ steps.alfFile.outputs.filePath  }}  # 直接使用 steps 输出
+     
       - name: Activate unity
         uses: ./
         with:
@@ -35,3 +34,5 @@ jobs:
           unity-password: ${{ secrets.UNITY_PASSWORD }}
           unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
           unity-alf-path: ${{ steps.alfFile.outputs.filePath  }}  # 直接使用 steps 输出
+      - name: Access ULF_OUTPUT
+        run: echo ${{ env.ULF  }}  # 直接使用 steps 输出
