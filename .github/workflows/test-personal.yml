@@ -37,9 +37,6 @@ jobs:
           unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
           unity-alf-path: ${{ steps.alfFile.outputs.filePath  }}  
 
-      - name: Access ULF_OUTPUT
-        run: echo ${{ steps.ulfFile.outputs.filePath }} 
-
       - name: Read ulf
         id: ulfRead
         uses: juliangruber/read-file-action@v1.1.4

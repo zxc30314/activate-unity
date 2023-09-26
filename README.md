@@ -41,24 +41,42 @@ Unity license serial key. Used for Plus/Professional license activation.
 ## Example usage
 
 ```yaml
-- name: Checkout project
+- name: Checkout code
   uses: actions/checkout@v2
-
-- name: Setup Unity
-  uses: kuler90/setup-unity@v1
+   
+- name: Get Unity Version
+  id: unity-version
+  run: |
+     UNITY_VERSION=$(grep -oP 'm_EditorVersionWithRevision: \K[0-9]+\.[0-9]+\.[0-9]+[a-zA-Z0-9]*' ProjectSettings/ProjectVersion.txt)
+     echo "UNITY_VERSION=$UNITY_VERSION" >> $GITHUB_ENV
+     echo "Unity version is $UNITY_VERSION"
+     
+- name: Request .alf file 🔑
+  id: alfFile
+  uses: game-ci/unity-request-activation-file@v2
   with:
-    unity-modules: android
+    unityVersion: ${{ env.UNITY_VERSION }}
 
-- name: Activate Unity
-  uses: kuler90/activate-unity@v1
+- name: Activate unity
+  id: ulfFile
+  uses: zxc30314/activate-unity@master
   with:
     unity-username: ${{ secrets.UNITY_USERNAME }}
     unity-password: ${{ secrets.UNITY_PASSWORD }}
     unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
+    unity-alf-path: ${{ steps.alfFile.outputs.filePath  }} 
 
-- name: Build Unity
-  uses: kuler90/build-unity@v1
+- name: Read ulf
+  id: ulfRead
+  uses: juliangruber/read-file-action@v1.1.4
   with:
-    build-target: Android
-    build-path: ./build.apk
+    path: ${{ steps.ulfFile.outputs.filePath }}
+    
+- name: Update secret UNITY_LICENSE
+  uses: hmanzur/actions-set-secret@v2.0.0
+  with:
+    name: 'UNITY_LICENSE'
+    value: '${{ steps.ulfRead.outputs.content }}'
+    token: ${{ secrets.ACCESS_TOKEN }}
+
 ```
