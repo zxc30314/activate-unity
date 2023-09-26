@@ -6,6 +6,9 @@ on:
       - "**"
     paths-ignore:
       - "**.md"
+env:
+  ULF_FILE: Unity_v2021.x.ulf
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -21,6 +24,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Request .alf file 🔑
         id: alfFile
         uses: game-ci/unity-request-activation-file@v2
@@ -33,6 +37,26 @@ jobs:
           unity-username: ${{ secrets.UNITY_USERNAME }}
           unity-password: ${{ secrets.UNITY_PASSWORD }}
           unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
-          unity-alf-path: ${{ steps.alfFile.outputs.filePath  }}  # 直接使用 steps 输出
+          unity-alf-path: ${{ steps.alfFile.outputs.filePath  }}  
+
       - name: Access ULF_OUTPUT
-        run: echo ${{ env.ULF  }}  # 直接使用 steps 输出
+        run: echo ${{ env.ULF_FILE }} 
+
+      - name: Read ulf
+        id: ulfRead
+        uses: juliangruber/read-file-action@v1.1.4
+        with:
+          path: ${{ env.ULF_FILE }}
+
+      # - name: Update secret UNITY_LICENSE
+      #   uses: hmanzur/actions-set-secret@v2.0.0
+      #   with:
+      #     name: 'UNITY_LICENSE'
+      #     value: '${{ steps.ulfRead.outputs.content }}'
+      #     token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Upload as artifact
+        uses: actions/upload-artifact@v2  # 要用到upload-artifact@v2
+        with:
+          name: ${{ env.ULF_FILE }}
+          path: ${{ env.ULF_FILE }}
+          retention-days: 1
