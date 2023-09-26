@@ -18,7 +18,10 @@ async function run() {
         if (unitySerial) {
             await unity.activateSerialLicense(unityPath, unityUsername, unityPassword, unitySerial);
         } else {
-            console.log(unityAlfPath);
+
+            if(!unityAlfPath){
+                throw new Error('unityAlfPath path not found');
+            }
             await exec.exec('npm install puppeteer@"^13.x"', [], { cwd: path.join(__dirname, '..') }); // install puppeteer for current platform
             const licenseRobot = require('./license-robot');
            // const licenseRequestFile = await unity.createManualActivationFile(unityPath);
