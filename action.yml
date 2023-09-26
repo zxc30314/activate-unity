@@ -23,7 +23,7 @@ inputs:
 runs:
   using: node16
   main: src/activate-license.js
-  post: src/return-license.js
+  # post: src/return-license.js
 branding:
   icon: unlock
   color: gray-dark

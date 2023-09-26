@@ -5,10 +5,10 @@ const unity = require('./unity');
 const fs = require('fs');
 async function run() {
     try {
-        const unityPath = core.getInput('unity-path') || process.env.UNITY_PATH;
-        if (!unityPath) {
-            throw new Error('unity path not found');
-        }
+        // const unityPath = core.getInput('unity-path') || process.env.UNITY_PATH;
+        // if (!unityPath) {
+        //     throw new Error('unity path not found');
+        // }
         const unityUsername = core.getInput('unity-username', { required: true });
         const unityPassword = core.getInput('unity-password', { required: true });
         const unityAuthenticatorKey = core.getInput('unity-authenticator-key');
