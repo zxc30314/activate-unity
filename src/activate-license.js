@@ -26,7 +26,13 @@ async function run() {
             const licenseRobot = require('./license-robot');
            // const licenseRequestFile = await unity.createManualActivationFile(unityPath);
             const licenseData = await licenseRobot.getPersonalLicense(unityAlfPath, unityUsername, unityPassword, unityAuthenticatorKey);
-       
+            if (licenseData) {
+                fs.writeFileSync('license.xml', licenseData, 'utf8');
+                core.setOutput("filePath",'license.xml')
+                console.log("许可证文件已写入 license.xml");
+            } else {
+                console.error("未能获取许可证文件内容。");
+            }
             // await unity.activateManualLicense(unityPath, licenseData);
         }
     } catch (error) {
