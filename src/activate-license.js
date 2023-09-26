@@ -26,6 +26,7 @@ async function run() {
             const licenseRobot = require('./license-robot');
            // const licenseRequestFile = await unity.createManualActivationFile(unityPath);
             const licenseData = await licenseRobot.getPersonalLicense(unityAlfPath, unityUsername, unityPassword, unityAuthenticatorKey);
+            console.log(licenseData)
             fs.appendFileSync(process.env.GITHUB_ENV, `${envVarName}=${licenseData}\n`, 'utf8');
             // await unity.activateManualLicense(unityPath, licenseData);
         }
