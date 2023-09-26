@@ -7,15 +7,6 @@ on:
     paths-ignore:
       - "**.md"
 jobs:
-  request_alf:
-    name: Request .alf file 🔑
-    runs-on: self-hosted
-    outputs:
-      alf: ${{ steps.output.outputs.alf }}
-    steps:
-      - name: Request manual activation file
-        id: alfFile
-        uses: game-ci/unity-request-activation-file@v2
   test:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -26,20 +17,21 @@ jobs:
           - macos-latest
           - windows-latest
         unity-version:
-          - 2018.4.1f1
-          - 2019.4.1f1
-          - 2020.3.1f1
+          - 2021.3.23f1
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup unity
-        uses: kuler90/setup-unity@v1
+      - name: Request .alf file 🔑  # 添加 request_alf 作业的步骤
+        id: alfFile
+        uses: game-ci/unity-request-activation-file@v2
         with:
-          unity-version: ${{ matrix.unity-version }}
+          unityVersion: ${{ matrix.unity-version }}
+        env:
+           ALF_OUTPUT: ${{ steps.alfFile.outputs.alf }}
       - name: Activate unity
         uses: ./
         with:
           unity-username: ${{ secrets.UNITY_USERNAME }}
           unity-password: ${{ secrets.UNITY_PASSWORD }}
           unity-authenticator-key: ${{ secrets.UNITY_AUTHENTICATOR_KEY }}
-          unity-alf-path: ${{ needs.request_alf.outputs.alf }}
+          unity-alf-path: ${{ env.ALF_OUTPUT }}
